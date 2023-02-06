@@ -1,11 +1,28 @@
-<div class="navbar">
-  <h2>ToDo App</h2>
+<div *ngIf="auth.isAuthenticated(); else notAuthenticated" class="navbar">
+  <h2 style="color: white;">ToDo App</h2>
   <div class="nav-btn">
-    <button routerLink="/dashboard" class="btn btn-danger">Home</button>
-    <button (click)="logout()" class="btn btn-light">logout</button>
+    <button
+      class="btn btn-danger"
+      routerLink="/create-task"
+      routerLinkActive="active-btn">Create task</button>
+    <button
+      routerLink="/dashboard"
+      class="btn btn-danger"
+      routerLinkActive="active-btn">Home</button>
+    <button (click)="logout()" class="btn btn-light">Log out</button>
+
   </div>
 
 </div>
+
+<ng-template #notAuthenticated>
+  <div class="navbar">
+    <h2 style="color: white;">ToDo App</h2>
+    <div class="nav-btn">
+      <h3 style="color: white;">please login to use this app</h3>
+    </div>
+  </div>
+</ng-template>
 
 <div class="container">
 

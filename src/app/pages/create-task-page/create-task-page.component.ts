@@ -1,18 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterContentChecked, Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Task} from "../../enviroments/interfaces";
+import {Task, TimeToDo} from "../../enviroments/interfaces";
 import {TasksService} from "../../shared/services/tasks.service";
+import {ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-create-task-page',
   templateUrl: './create-task-page.component.html',
   styleUrls: ['./create-task-page.component.scss']
 })
-export class CreateTaskPageComponent implements OnInit{
+export class CreateTaskPageComponent implements OnInit, AfterContentChecked{
 
   form: FormGroup
 
-  constructor(private tasksService: TasksService) {
+  constructor(private tasksService: TasksService, private cdref: ChangeDetectorRef) {
   }
   ngOnInit() {
     this.form = new FormGroup({
@@ -26,21 +27,28 @@ export class CreateTaskPageComponent implements OnInit{
     })
   }
 
-  // changeTimeToDo() {
-  //   console.log(this.form.value.timeToDo)
-  // }
+  ngAfterContentChecked() {
+    this.cdref.detectChanges()
+  }
+
+  changeTimeToDo(value: string) {
+    this.form.patchValue({
+      timeToDo: value
+    })
+
+  }
 
   createTask() {
     const task: Task = {
       title: this.form.value.title,
       description: this.form.value.description,
       isComplete: false,
-      timeToDo: 'fast'
+      timeToDo: this.form.value.timeToDo
     }
 
     this.form.reset()
 
-    this.tasksService.createTask(task).subscribe((task) => console.log(task))
+    this.tasksService.createTask(task).subscribe((task) => console.log('added'))
   }
 
 

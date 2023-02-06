@@ -20,7 +20,8 @@ export class TasksService {
         return Object
           .keys(response)
           .map((key) => ({
-            ...response[key]
+            ...response[key],
+            id: key
           }))
       }))
   }
@@ -36,5 +37,17 @@ export class TasksService {
         })
       )
   }
+
+  deleteTask(id: string): Observable<any> {
+    return this.http.delete(`${enviroment.firebase.fbDb}/tasks/${id}.json`)
+  }
+
+  getTaskById(id: string): Observable<Task> {
+    return this.http.get<Task>(`${enviroment.firebase.fbDb}/tasks/${id}.json`)
+  }
+  editTasks(id: string, task: Task) {
+    return this.http.patch(`${enviroment.firebase.fbDb}/tasks/${id}.json`, task)
+  }
+
 
 }

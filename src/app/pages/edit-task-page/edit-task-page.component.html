@@ -1,5 +1,5 @@
-<form class="card" [formGroup]="form" (ngSubmit)="createTask()">
-  <h2>Create task</h2>
+<form class="card" [formGroup]="form" (ngSubmit)="editTask()">
+  <h2>Edit task</h2>
   <div
     class="form-control"
     [ngClass]="{invalid: form.get('title')?.invalid && form.get('title')?.touched}"
@@ -53,8 +53,9 @@
       type="submit"
       class="btn btn-primary"
       [disabled]="form.invalid"
-    >Create Task</button>
+    >Edit</button>
   </div>
 
 </form>
+
 

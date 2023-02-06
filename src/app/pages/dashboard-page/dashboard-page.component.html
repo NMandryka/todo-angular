@@ -1,17 +1,69 @@
 <div>
-
-  <ul class="tasks">
-    <li
-      *ngFor="let task of tasks"
-      class="task"
-      [ngClass]=""
+  <div class="filters">
+    <input
+      type="text"
+      class="search"
+      placeholder="search todo by title"
+      [(ngModel)]="search"
     >
-      <h2>{{task.title}}</h2>
-      <div class="description">
-        {{task.description}}
-      </div>
-    </li>
-  </ul>
+
+    <div class="filter-btns">
+      <button
+        class="btn btn-light"
+        (click)="timeToDo = 'all'"
+        [ngClass]="{active: timeToDo === 'all'}"
+      >all</button>
+      <button
+        class="btn fast"
+        (click)="timeToDo = 'fast'"
+        [ngClass]="{active: timeToDo === 'fast'}"
+      >fast</button>
+      <button
+        class="btn medium"
+        (click)="timeToDo = 'medium'"
+        [ngClass]="{active: timeToDo === 'medium'}"
+      >medium</button>
+      <button
+        class="btn slow"
+        (click)="timeToDo = 'slow'"
+        [ngClass]="{active: timeToDo === 'slow'}"
+      >slow</button>
+    </div>
+  </div>
 </div>
 
-<button class="btn btn-danger" routerLink="/create-task">create task</button>
+<div *ngIf="loading; else dashboard" class="loading">
+  <h2 style="text-align: center;">loading...</h2>
+</div>
+
+<ng-template #dashboard>
+
+    <ul class="tasks">
+      <li
+        *ngFor="let task of tasks | search: search | timeToDoFilter: timeToDo"
+        class="task"
+        [ngClass]="{fast: task.timeToDo === 'fast',
+                  medium: task.timeToDo === 'medium',
+                  slow: task.timeToDo === 'slow'
+                  }"
+      >
+        <div class="content">
+          <h2>{{task.title}}</h2>
+          <div class="description">
+            {{task.description}}
+          </div>
+        </div>
+
+
+        <div class="option-btns">
+          <button class="btn btn-edit" (click)="editTask(task.id!)">edit</button>
+          <button class="btn btn-danger" (click)="deletePost(task.id!)">delete</button>
+
+        </div>
+      </li>
+    </ul>
+
+</ng-template>
+
+
+

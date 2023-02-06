@@ -315,8 +315,26 @@ form {
   color: white
 }
 
+.btn-edit {
+  background-color: #cacc3e;
+  color: white;
+}
+
 .active {
-  border: 2px solid #151715;
-  width: 5rem;
-  height: 2.8rem;
+  border: 1.5px solid #494242
+}
+
+.option-fast {
+  background-color: #c72727;
+  color: white
+}
+
+.option-medium {
+  background-color: #b48e2e;
+  color: white
+}
+
+.option-slow {
+  background-color: #28a745;
+  color: white
 }

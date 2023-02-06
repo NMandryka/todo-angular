@@ -10,6 +10,10 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthInterceptor} from "./shared/auth.interceptor";
 import { CreateTaskPageComponent } from './pages/create-task-page/create-task-page.component';
+import { SearchPipe } from './shared/pipes/search.pipe';
+import { TimeToDoFilterPipe } from './shared/pipes/time-to-do-filter.pipe';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
+import { EditTaskPageComponent } from './pages/edit-task-page/edit-task-page.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -23,7 +27,11 @@ const INTERCEPTOR_PROVIDER: Provider = {
     LoginPageComponent,
     SignUpPageComponent,
     DashboardPageComponent,
-    CreateTaskPageComponent
+    CreateTaskPageComponent,
+    SearchPipe,
+    TimeToDoFilterPipe,
+    ErrorPageComponent,
+    EditTaskPageComponent
   ],
   imports: [
     BrowserModule,
