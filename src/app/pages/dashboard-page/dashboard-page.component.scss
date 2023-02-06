@@ -1,0 +1,25 @@
+.tasks {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2.5rem;
+
+  li {
+    min-width: 20rem;
+    min-height: 5rem;
+    cursor: pointer;
+    &:hover {
+      background-color: #666666;
+      transition: .3s all;
+    }
+    h2 {
+      text-align: center;
+    }
+
+    .description {
+      text-align: center;
+    }
+  }
+}

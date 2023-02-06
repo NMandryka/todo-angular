@@ -1,0 +1,17 @@
+<div>
+
+  <ul class="tasks">
+    <li
+      *ngFor="let task of tasks"
+      class="task"
+      [ngClass]=""
+    >
+      <h2>{{task.title}}</h2>
+      <div class="description">
+        {{task.description}}
+      </div>
+    </li>
+  </ul>
+</div>
+
+<button class="btn btn-danger" routerLink="/create-task">create task</button>

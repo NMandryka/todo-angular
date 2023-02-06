@@ -1,0 +1,50 @@
+<form class="card" [formGroup]="form" (ngSubmit)="createTask()">
+  <h2>Create task</h2>
+  <div
+    class="form-control"
+    [ngClass]="{invalid: form.get('title')?.invalid && form.get('title')?.touched}"
+  >
+    <label for="title">Title:</label>
+    <input id="title" type="text" formControlName="title">
+    <div
+      class="validation"
+      *ngIf="form.get('title')?.invalid && form.get('title')?.touched"
+    >
+      <small *ngIf="form.get('title')?.errors?.['required']">required title</small>
+
+
+    </div>
+  </div>
+
+  <div
+    class="form-control"
+    [ngClass]="{invalid: form.get('description')?.invalid && form.get('description')?.touched}"
+  >
+    <label for="description">Description:</label>
+    <input id="description" type="text" formControlName="description">
+    <div
+      class="validation"
+      *ngIf="form.get('description')?.invalid && form.get('description')?.touched"
+    >
+      <small *ngIf="form.get('description')?.errors?.['required']">required description</small>
+
+    </div>
+  </div>
+
+  <div class="timeToDo">
+    <button type="button" class="btn btn-danger active">fast</button>
+    <button type="button" class="btn btn-medium">medium</button>
+    <button type="button" class="btn btn-success">slow</button>
+  </div>
+
+  <div class="auth-btn">
+    <button
+      tabindex="1"
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="form.invalid"
+    >Create Task</button>
+  </div>
+
+</form>
+
