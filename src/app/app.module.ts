@@ -14,6 +14,11 @@ import { SearchPipe } from './shared/pipes/search.pipe';
 import { TimeToDoFilterPipe } from './shared/pipes/time-to-do-filter.pipe';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { EditTaskPageComponent } from './pages/edit-task-page/edit-task-page.component';
+import {AngularFireModule} from "@angular/fire/compat";
+import {enviroment} from "./enviroments/enviroment";
+import {AngularFireAuthModule} from "@angular/fire/compat/auth";
+import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
+import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -22,6 +27,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
 }
 
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     LoginPageComponent,
@@ -38,9 +44,13 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(enviroment.firebase),
+    AngularFireAuthModule,
+    AngularFirestoreModule,
+    AngularFireDatabaseModule
+
   ],
-  providers: [INTERCEPTOR_PROVIDER],
-  bootstrap: [AppComponent]
+  providers: [INTERCEPTOR_PROVIDER]
 })
 export class AppModule { }

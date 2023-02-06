@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "../../shared/services/auth.service";
 
 @Component({
   selector: 'app-sign-up-page',
@@ -10,7 +11,7 @@ export class SignUpPageComponent {
 
   form: FormGroup
 
-  constructor() {
+  constructor(public auth: AuthService) {
     this.form = new FormGroup({
       email: new FormControl(null, [
         Validators.required, Validators.email
@@ -22,7 +23,8 @@ export class SignUpPageComponent {
   }
 
   submit() {
-
+    this.auth.signUp(this.form.value.email, this.form.value.password)
+      .then(() => console.log('sign up succesfully'))
   }
 
 }

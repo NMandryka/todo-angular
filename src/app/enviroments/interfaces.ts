@@ -14,9 +14,18 @@ export interface Enviroment {
 }
 
 export interface User {
-  email: string
-  password: string
-  returnSecureToken?: boolean
+  // email: string
+  // password: string
+  // uid?: string
+  // returnSecureToken?: boolean
+
+  uid?: string,
+  email?: string,
+  password?: string,
+  returnSecureToken?: boolean,
+  displayName?: string,
+  photoURL?: string,
+  emailVerified?: string,
 }
 
 export interface fbLoginResponse {
@@ -42,3 +51,5 @@ export interface fbDbResponse {
 }
 
 export type TimeToDo = 'fast' | 'medium' | 'slow'
+
+

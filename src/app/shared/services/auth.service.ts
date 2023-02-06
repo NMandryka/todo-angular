@@ -4,13 +4,29 @@ import {fbLoginResponse, User} from "../../enviroments/interfaces";
 import {catchError, Observable, tap, throwError, pipe} from "rxjs";
 import {enviroment} from "../../enviroments/enviroment";
 import {Router} from "@angular/router";
+import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  userData: any;
+  constructor(private http: HttpClient, private router: Router,
+              public afAuth: AngularFireAuth,
+              public afs: AngularFirestore) {
 
-  constructor(private http: HttpClient, private router: Router) { }
+    this.afAuth.authState.subscribe((user) => {
+      if (user) {
+        this.userData = user;
+        localStorage.setItem('user', JSON.stringify(this.userData));
+        JSON.parse(localStorage.getItem('user')!);
+      } else {
+        localStorage.setItem('user', 'null');
+        JSON.parse(localStorage.getItem('user')!);
+      }
+    });
+  }
 
   get token() {
     if(localStorage.getItem('exp-fb-token')) {
@@ -56,4 +72,60 @@ export class AuthService {
     return !!this.token
   }
 
+  signUp(email: string, password: string) {
+    return this.afAuth
+      .createUserWithEmailAndPassword(email, password)
+      .then((result) => {
+        /* Call the SendVerificaitonMail() function when new user sign
+        up and returns promise */
+        // this.SendVerificationMail();
+        this.setUserData(result.user);
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
+
+  setUserData(user: any) {
+    const userRef: AngularFirestoreDocument<any> = this.afs.doc(
+      `users/${user.uid}`
+    );
+    const userData: User = {
+      uid: user.uid,
+      email: user.email,
+      displayName: user.displayName,
+      photoURL: user.photoURL,
+      emailVerified: user.emailVerified,
+    };
+    return userRef.set(userData, {
+      merge: true,
+    });
+  }
+  // setUserData(user: any) {
+  //   const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.id}`);
+  //   const userData: User = {
+  //     uid: user.uid,
+  //     email: user.email,
+  //     password: user.password
+  //   };
+  //   return userRef.set(userData, {
+  //     merge: true
+  //   })
+  // }
+
+  signIn(email: string, password: string) {
+    return this.afAuth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        this.setUserData(result.user);
+        this.afAuth.authState.subscribe((user) => {
+          if (user) {
+            this.router.navigate(['dashboard']);
+          }
+        });
+      })
+      .catch((error) => {
+        window.alert(error.message);
+      });
+  }
 }
