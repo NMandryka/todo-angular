@@ -11,7 +11,7 @@ export class AuthInterceptor implements  HttpInterceptor {
               private router: Router) {
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if(this.auth.isAuthenticated()) {
+    if(this.auth.isLoggedIn) {
       req = req.clone({
         setParams: {
           auth: this.auth.token!
@@ -23,7 +23,7 @@ export class AuthInterceptor implements  HttpInterceptor {
         catchError((err: HttpErrorResponse) => {
           console.log('[Interceptor error]', err.message)
           if(err.status === 401) {
-            this.auth.logout()
+            this.auth.signOut()
             this.router.navigate(['/admin', 'login'], {
               queryParams: {
                 authFailed: true

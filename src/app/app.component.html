@@ -1,4 +1,6 @@
-<div *ngIf="auth.isAuthenticated(); else notAuthenticated" class="navbar">
+<app-alert></app-alert>
+
+<div *ngIf="auth.isLoggedIn; else notAuthenticated" class="navbar">
   <h2 style="color: white;">ToDo App</h2>
   <div class="nav-btn">
     <button
@@ -9,7 +11,7 @@
       routerLink="/dashboard"
       class="btn btn-danger"
       routerLinkActive="active-btn">Home</button>
-    <button (click)="logout()" class="btn btn-light">Log out</button>
+    <button (click)="signOut()" class="btn btn-light">Log out</button>
 
   </div>
 

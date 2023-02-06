@@ -8,10 +8,11 @@ import {CreateTaskPageComponent} from "./pages/create-task-page/create-task-page
 import {ErrorPageComponent} from "./pages/error-page/error-page.component";
 import {EditTaskPageComponent} from "./pages/edit-task-page/edit-task-page.component";
 
+
 const routes: Routes = [
-  {path: '', redirectTo: 'login', pathMatch: 'full'},
-  {path: 'login', component: LoginPageComponent},
-  {path: 'signUp',component: SignUpPageComponent},
+  {path: '', redirectTo: 'sign-in', pathMatch: 'full', },
+  {path: 'sign-in', component: LoginPageComponent},
+  {path: 'sign-up',component: SignUpPageComponent},
   {path: 'dashboard', component: DashboardPageComponent, canActivate: [
       AuthGuard
     ]},
@@ -26,6 +27,7 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, {
     preloadingStrategy: PreloadAllModules
   })],
-  exports: [RouterModule]
+  exports: [RouterModule],
+
 })
 export class AppRoutingModule { }

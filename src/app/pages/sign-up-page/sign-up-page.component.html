@@ -21,7 +21,8 @@
     [ngClass]="{invalid: form.get('password')?.invalid && form.get('password')?.touched}"
   >
     <label for="password">Password:</label>
-    <input id="password" type="password" formControlName="password">
+    <input id="password" [type]="showPassword ? 'text' : 'password' " #password formControlName="password">
+    <button type="button" (click)="showPassword = !showPassword" >{{showPassword ? 'hide' : 'show'}} password</button>
     <div
       class="validation"
       *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
@@ -42,7 +43,7 @@
       tabindex="1"
       type="submit"
       class="btn btn-dark"
-      routerLink="/login"
+      routerLink="/sign-in"
     >Login</button>
   </div>
 

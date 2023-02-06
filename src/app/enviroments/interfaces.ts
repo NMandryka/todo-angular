@@ -52,4 +52,11 @@ export interface fbDbResponse {
 
 export type TimeToDo = 'fast' | 'medium' | 'slow'
 
+export type AlertType = 'success' | 'warning' | 'danger'
+
+export interface Alert {
+  type: AlertType
+  text: string
+}
+
 

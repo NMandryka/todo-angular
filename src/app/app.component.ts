@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AuthService} from "./shared/services/auth.service";
+import {AlertService} from "./shared/services/alert.service";
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,20 @@ import {AuthService} from "./shared/services/auth.service";
 })
 export class AppComponent {
 
-  constructor(public auth: AuthService) {
+  constructor(public auth: AuthService, private alertService: AlertService) {
   }
 
-  logout() {
-    this.auth.logout()
+  signOut() {
+    try {
+      this.auth.signOut()
+        .then(() => {
+          this.alertService.success('you successfully log out')
+        })
+    }
+    catch (err: any) {
+      this.alertService.danger('something went wrong')
+      throw new Error(err)
+    }
+
   }
 }

@@ -1,19 +1,24 @@
-import {AfterContentChecked, Component, OnInit} from '@angular/core';
+import {AfterContentChecked, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Task, TimeToDo} from "../../enviroments/interfaces";
+import {Task} from "../../enviroments/interfaces";
 import {TasksService} from "../../shared/services/tasks.service";
 import {ChangeDetectorRef } from '@angular/core';
+import {catchError, Subscription} from "rxjs";
+import {AlertService} from "../../shared/services/alert.service";
 
 @Component({
   selector: 'app-create-task-page',
   templateUrl: './create-task-page.component.html',
   styleUrls: ['./create-task-page.component.scss']
 })
-export class CreateTaskPageComponent implements OnInit, AfterContentChecked{
+export class CreateTaskPageComponent implements OnInit, AfterContentChecked, OnDestroy{
 
   form: FormGroup
+  createSub = Subscription
 
-  constructor(private tasksService: TasksService, private cdref: ChangeDetectorRef) {
+  constructor(private tasksService: TasksService,
+              private cdref: ChangeDetectorRef,
+              private alertService: AlertService) {
   }
   ngOnInit() {
     this.form = new FormGroup({
@@ -48,8 +53,16 @@ export class CreateTaskPageComponent implements OnInit, AfterContentChecked{
 
     this.form.reset()
 
-    this.tasksService.createTask(task).subscribe((task) => console.log('added'))
+    this.tasksService.createTask(task).subscribe(() => {
+      this.alertService.success('You successfully added new task')
+    }, (err) => {
+      catchError(err)
+      this.alertService.danger('something went wrong')
+    })
   }
 
+  ngOnDestroy() {
+
+  }
 
 }

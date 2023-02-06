@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {User} from "../../enviroments/interfaces";
 import {AuthService} from "../../shared/services/auth.service";
+import {AlertService} from "../../shared/services/alert.service";
+import {catchError} from "rxjs";
 
 @Component({
   selector: 'app-login-page',
@@ -12,7 +13,8 @@ export class LoginPageComponent implements OnInit{
 
   form: FormGroup
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService,
+              private alertService: AlertService) {
 
   }
   ngOnInit() {
@@ -32,12 +34,16 @@ export class LoginPageComponent implements OnInit{
       return;
     }
 
-    const user: User = {
-      email: this.form.value.email,
-      password: this.form.value.password,
-      returnSecureToken: true
+    try {
+      this.auth.signIn(this.form.value.email, this.form.value.password)
+        .then(
+          (res) => {
+            this.alertService.success('you successfully sing in')
+          }
+        )
     }
-
-    this.auth.login(user).subscribe(() => console.log('work'))
+    catch (err) {
+      this.alertService.danger('something went wrong...')
+    }
   }
 }

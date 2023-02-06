@@ -1,5 +1,5 @@
 <form class="card" [formGroup]="form" (ngSubmit)="submit()">
-  <h2>Log in</h2>
+  <h2>Sign in</h2>
   <div
     class="form-control"
     [ngClass]="{invalid: form.get('email')?.invalid && form.get('email')?.touched}"
@@ -37,12 +37,12 @@
       type="submit"
       class="btn btn-primary"
       [disabled]="form.invalid"
-    >Log In</button>
+    >Sign In</button>
     <button
       tabindex="1"
       type="submit"
       class="btn btn-dark"
-      routerLink="/signUp"
+      routerLink="/sign-up"
     >Sign Up</button>
   </div>
 

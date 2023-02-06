@@ -1,25 +1,31 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {TasksService} from "../../shared/services/tasks.service";
 import {Task} from "../../enviroments/interfaces";
 import {Router} from "@angular/router";
+import {catchError, Subscription} from "rxjs";
+import {AlertService} from "../../shared/services/alert.service";
 
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard-page.component.html',
   styleUrls: ['./dashboard-page.component.scss']
 })
-export class DashboardPageComponent implements OnInit{
+export class DashboardPageComponent implements OnInit, OnDestroy{
   tasks : Task[]
   search = ''
   loading = true
   timeToDo = 'all'
+  getSub: Subscription
+  delSub: Subscription
 
-  constructor(public tasksService: TasksService, private router: Router) {
+  constructor(public tasksService: TasksService,
+              private router: Router,
+              private alertService: AlertService) {
   }
 
   ngOnInit() {
-    this.tasksService.getAll().subscribe((response: Task[]) => {
+    this.getSub = this.tasksService.getAll().subscribe((response: Task[]) => {
       this.tasks = response
       this.loading = false
     })
@@ -27,12 +33,25 @@ export class DashboardPageComponent implements OnInit{
 
 
   deletePost(id: string) {
-    this.tasksService.deleteTask(id).subscribe((response) => {
+    this.delSub = this.tasksService.deleteTask(id).subscribe(() => {
       this.tasks = this.tasks.filter(task => task.id !== id)
+      this.alertService.success('you successfully deleted task')
+    }, (err) => {
+      catchError(err)
+      this.alertService.danger('something went wrong')
     })
   }
 
   editTask(id: string) {
     this.router.navigate(['dashboard', 'tasks', 'edit', id])
+  }
+
+  ngOnDestroy() {
+    if(this.getSub) {
+      this.getSub.unsubscribe()
+    }
+    if(this.delSub) {
+      this.delSub.unsubscribe()
+    }
   }
 }

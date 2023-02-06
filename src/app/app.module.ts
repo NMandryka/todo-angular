@@ -19,6 +19,7 @@ import {enviroment} from "./enviroments/enviroment";
 import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
+import { AlertComponent } from './shared/components/alert/alert.component';
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -37,7 +38,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     SearchPipe,
     TimeToDoFilterPipe,
     ErrorPageComponent,
-    EditTaskPageComponent
+    EditTaskPageComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +51,7 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireDatabaseModule
+
 
   ],
   providers: [INTERCEPTOR_PROVIDER]
