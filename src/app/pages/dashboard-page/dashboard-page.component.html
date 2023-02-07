@@ -40,7 +40,11 @@
 
     <ul class="tasks">
       <li
-        *ngFor="let task of tasks | search: search | timeToDoFilter: timeToDo"
+        *ngFor="let task of tasks | search: search | timeToDoFilter: timeToDo | paginate : {
+          itemsPerPage: 5,
+          currentPage: page,
+          totalItems: tasks.length
+        }"
         class="task"
         [ngClass]="{fast: task.timeToDo === 'fast',
                   medium: task.timeToDo === 'medium',
@@ -65,5 +69,10 @@
 
 </ng-template>
 
-
+<pagination-controls
+  previousLabel="Prev"
+  nextLabel="Next"
+  [responsive]="true"
+  (pageChange)="handlePageChanged($event)"
+></pagination-controls>
 

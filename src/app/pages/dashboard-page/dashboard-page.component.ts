@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
 import {TasksService} from "../../shared/services/tasks.service";
 import {Task} from "../../enviroments/interfaces";
-import {Router} from "@angular/router";
+import { Router} from "@angular/router";
 import {catchError, Subscription} from "rxjs";
 import {AlertService} from "../../shared/services/alert.service";
+
 
 @Component({
   selector: 'app-dashboard-page',
@@ -18,6 +18,8 @@ export class DashboardPageComponent implements OnInit, OnDestroy{
   timeToDo = 'all'
   getSub: Subscription
   delSub: Subscription
+  page = 1
+
 
   constructor(public tasksService: TasksService,
               private router: Router,
@@ -26,6 +28,12 @@ export class DashboardPageComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.getSub = this.tasksService.getAll().subscribe((response: Task[]) => {
+
+      this.router.navigate([], {
+        queryParams: {
+          page: this.page
+        }
+      })
 
       this.tasks = response
       this.loading = false
@@ -56,5 +64,13 @@ export class DashboardPageComponent implements OnInit, OnDestroy{
     }
   }
 
+  handlePageChanged(event: any) {
+    this.page = event
+    this.router.navigate([], {
+      queryParams: {
+        page: this.page
+      }
+    })
+  }
 
 }

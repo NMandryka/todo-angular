@@ -20,6 +20,7 @@ import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {AngularFireDatabaseModule} from "@angular/fire/compat/database";
 import { AlertComponent } from './shared/components/alert/alert.component';
+import {NgxPaginationModule} from "ngx-pagination";
 
 const INTERCEPTOR_PROVIDER: Provider = {
   provide: HTTP_INTERCEPTORS,
@@ -50,8 +51,8 @@ const INTERCEPTOR_PROVIDER: Provider = {
     AngularFireModule.initializeApp(enviroment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    AngularFireDatabaseModule
-
+    AngularFireDatabaseModule,
+    NgxPaginationModule
 
   ],
   providers: [INTERCEPTOR_PROVIDER]
