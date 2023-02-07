@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
 import {TasksService} from "./tasks.service";
+import {AlertService} from "./alert.service";
 
 
 @Injectable({
@@ -13,10 +14,12 @@ import {TasksService} from "./tasks.service";
 export class AuthService {
   userData: any;
 
+
   constructor(private http: HttpClient, private router: Router,
               public afAuth: AngularFireAuth,
               public afs: AngularFirestore,
               private tasksService: TasksService,
+              private alertService: AlertService
               ) {
 
     this.afAuth.authState.subscribe((user) => {
@@ -39,6 +42,7 @@ export class AuthService {
   }
 
   get isLoggedIn(): boolean {
+
     const user = JSON.parse(localStorage.getItem('user')!);
 
     return user !== null;
@@ -50,9 +54,12 @@ export class AuthService {
       .then((result) => {
 
         this.setUserData(result.user);
+        this.router.navigate(['dashboard'])
+
       })
       .catch((error) => {
-        window.alert(error.message);
+        this.alertService.danger('There is no user with this data')
+        throw new Error(error)
       });
   }
 

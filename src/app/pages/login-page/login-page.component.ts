@@ -34,16 +34,12 @@ export class LoginPageComponent implements OnInit{
       return;
     }
 
-    try {
-      this.auth.signIn(this.form.value.email, this.form.value.password)
-        .then(
-          (res) => {
-            this.alertService.success('you successfully sing in')
-          }
-        )
-    }
-    catch (err) {
-      this.alertService.danger('something went wrong...')
-    }
+    this.auth.signIn(this.form.value.email, this.form.value.password)
+      .then(() => {
+          this.alertService.success('you successfully sing in')
+        }
+      )
+      .catch(() => this.alertService.danger('there is no user with this data'))
+
   }
 }

@@ -67,12 +67,14 @@
       </li>
     </ul>
 
+  <pagination-controls
+    previousLabel="Prev"
+    nextLabel="Next"
+    [responsive]="true"
+    (pageChange)="handlePageChanged($event)"
+  ></pagination-controls>
+
 </ng-template>
 
-<pagination-controls
-  previousLabel="Prev"
-  nextLabel="Next"
-  [responsive]="true"
-  (pageChange)="handlePageChanged($event)"
-></pagination-controls>
+
 
