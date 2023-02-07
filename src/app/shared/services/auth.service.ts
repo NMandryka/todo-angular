@@ -54,6 +54,7 @@ export class AuthService {
       .then((result) => {
 
         this.setUserData(result.user);
+        this.tasksService.createDbForNewUser(result.user!.uid).subscribe(() => console.log('work db'))
         this.router.navigate(['dashboard'])
 
       })
@@ -68,7 +69,6 @@ export class AuthService {
       `users/${user.uid}`
     );
 
-    this.tasksService.createDbForNewUser(user.uid).subscribe(() => console.log('work db'))
 
     const userData: User = {
       uid: user.uid,
