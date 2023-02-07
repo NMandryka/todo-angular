@@ -26,6 +26,7 @@ export class DashboardPageComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.getSub = this.tasksService.getAll().subscribe((response: Task[]) => {
+
       this.tasks = response
       this.loading = false
     })
@@ -54,4 +55,6 @@ export class DashboardPageComponent implements OnInit, OnDestroy{
       this.delSub.unsubscribe()
     }
   }
+
+
 }

@@ -1,20 +1,23 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {fbLoginResponse, User} from "../../enviroments/interfaces";
-import {catchError, Observable, tap, throwError, pipe} from "rxjs";
-import {enviroment} from "../../enviroments/enviroment";
+import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import { User} from "../../enviroments/interfaces";
 import {Router} from "@angular/router";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
+import {TasksService} from "./tasks.service";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   userData: any;
+
   constructor(private http: HttpClient, private router: Router,
               public afAuth: AngularFireAuth,
-              public afs: AngularFirestore) {
+              public afs: AngularFirestore,
+              private tasksService: TasksService,
+              ) {
 
     this.afAuth.authState.subscribe((user) => {
       if (user) {
@@ -28,17 +31,6 @@ export class AuthService {
     });
   }
 
-  get token() {
-    if(localStorage.getItem('exp-fb-token')) {
-      if(new Date().getTime() > +localStorage.getItem('exp-fb-token')!) {
-        this.signOut()
-        return null
-      }
-    }
-
-    return localStorage.getItem('fb-token')
-  }
-
   signOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
@@ -49,14 +41,14 @@ export class AuthService {
   get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
 
-    return user !== null ? true : false;
+    return user !== null;
   }
 
   signUp(email: string, password: string) {
     return this.afAuth
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        // this.SendVerificationMail();
+
         this.setUserData(result.user);
       })
       .catch((error) => {
@@ -68,6 +60,9 @@ export class AuthService {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
     );
+
+    this.tasksService.createDbForNewUser(user.uid).subscribe(() => console.log('work db'))
+
     const userData: User = {
       uid: user.uid,
       email: user.email,

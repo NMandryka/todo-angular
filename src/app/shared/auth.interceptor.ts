@@ -12,11 +12,7 @@ export class AuthInterceptor implements  HttpInterceptor {
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if(this.auth.isLoggedIn) {
-      req = req.clone({
-        setParams: {
-          auth: this.auth.token!
-        }
-      })
+      req = req.clone()
     }
     return next.handle(req)
       .pipe(
