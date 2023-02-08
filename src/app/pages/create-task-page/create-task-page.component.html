@@ -2,7 +2,7 @@
   <h2>Create task</h2>
   <div
     class="form-control"
-    [ngClass]="{invalid: form.get('title')?.invalid && form.get('title')?.touched}"
+    [class.invalid]="form.get('title')?.invalid && form.get('title')?.touched"
   >
     <label for="title">Title:</label>
     <input id="title" type="text" formControlName="title">
@@ -18,7 +18,7 @@
 
   <div
     class="form-control"
-    [ngClass]="{invalid: form.get('description')?.invalid && form.get('description')?.touched}"
+    [class.invalid]="form.get('description')?.invalid && form.get('description')?.touched"
   >
     <label for="description">Description:</label>
     <input id="description" type="text" formControlName="description">
@@ -35,16 +35,16 @@
   <select
     name="timeToDo"
     id="timeToDo"
-    [ngClass]="{'option-fast': timeToDo.value === 'fast',
-                  'option-medium': timeToDo.value === 'medium',
-                  'option-slow': timeToDo.value === 'slow'
+    [ngClass]="{'option-fast': timeToDo.value === timeToDoEnum.FAST,
+                  'option-medium': timeToDo.value === timeToDoEnum.MEDIUM,
+                  'option-slow': timeToDo.value === timeToDoEnum.SLOW
                   }"
     #timeToDo
     formControlName="timeToDo"
     (change)="changeTimeToDo(timeToDo.value)">
-    <option value="fast" class="option-fast">fast</option>
-    <option value="medium" class="option-medium">medium</option>
-    <option value="slow" class="option-slow">slow</option>
+    <option [value]="timeToDoEnum.FAST" class="option-fast">fast</option>
+    <option [value]="timeToDoEnum.MEDIUM" class="option-medium">medium</option>
+    <option [value]="timeToDoEnum.SLOW" class="option-slow">slow</option>
   </select>
 
   <div class="auth-btn">

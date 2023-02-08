@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import { User} from "../../enviroments/interfaces";
+import {User} from "../../core/interfaces/user/user.interface";
 import {Router} from "@angular/router";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
-import {TasksService} from "./tasks.service";
-import {AlertService} from "./alert.service";
+import {TasksService} from "../../core/services/tasks.service";
+import {AlertService} from "../alert/alert.service";
 
 
 @Injectable({
@@ -37,7 +37,7 @@ export class AuthService {
   signOut() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('user');
-      this.router.navigate(['sign-in']);
+      this.router.navigate(['auth/sign-in']);
     });
   }
 

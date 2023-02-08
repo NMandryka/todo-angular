@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {AuthService} from "./shared/services/auth.service";
-import {AlertService} from "./shared/services/alert.service";
+import {AuthService} from "./shared/auth/auth.service";
+import {AlertService} from "./shared/alert/alert.service";
 
 @Component({
   selector: 'app-root',

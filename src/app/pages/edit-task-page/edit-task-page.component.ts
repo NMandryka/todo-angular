@@ -1,50 +1,45 @@
-import {AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {TasksService} from "../../shared/services/tasks.service";
-import {Task} from "../../enviroments/interfaces";
-import {ActivatedRoute} from "@angular/router";
-import {catchError, Subscription} from "rxjs";
-import {AlertService} from "../../shared/services/alert.service";
+import {TasksService} from "../../core/services/tasks.service";
+import {Task} from "../../core/interfaces/task/task.interface";
+import {ActivatedRoute, Router} from "@angular/router";
+import {catchError, take} from "rxjs";
+import {AlertService} from "../../shared/alert/alert.service";
+import {TimeToDoEnum} from "../../core/enums/timeToDo/timeToDo.enum";
 
 @Component({
   selector: 'app-edit-task-page',
   templateUrl: './edit-task-page.component.html',
   styleUrls: ['./edit-task-page.component.scss']
 })
-export class EditTaskPageComponent implements OnInit, AfterContentChecked, OnDestroy{
-  form: FormGroup
+export class EditTaskPageComponent {
+  form: FormGroup = new FormGroup({
+    title: new FormControl(null, Validators.required),
+    description: new FormControl(null, Validators.required),
+    timeToDo: new FormControl(null, Validators.required)
+  })
   editTaskId: string
   task: Task
-  getTaskSub: Subscription
-  editTaskSub: Subscription
+
   constructor(private tasksService: TasksService,
               private route: ActivatedRoute,
-              private cdref: ChangeDetectorRef,
-              private alertService: AlertService) {
-  }
-  ngOnInit() {
-
+              private alertService: AlertService,
+              private router: Router)
+  {
     this.editTaskId = this.route.snapshot.paramMap.get('id')!
 
-    this.form = new FormGroup({
-      title: new FormControl(null, Validators.required),
-      description: new FormControl(null, Validators.required),
-      timeToDo: new FormControl(null, Validators.required)
-    })
-
-    this.getTaskSub = this.tasksService.getTaskById(this.editTaskId).subscribe(task => {
+    this.tasksService.getTaskById(this.editTaskId).pipe(take(1)).subscribe((task: Task) => {
+      task.timeToDo = task.timeToDo.toUpperCase() as TimeToDoEnum
       this.task = task
+      console.log(task)
+      console.log(this.task.timeToDo)
+
       this.form.setValue({
         title: task.title,
         description: task.description,
         timeToDo: task.timeToDo
       })
     })
-
-  }
-
-  ngAfterContentChecked() {
-    this.cdref.detectChanges()
   }
 
   changeTimeToDo(value: string) {
@@ -64,21 +59,14 @@ export class EditTaskPageComponent implements OnInit, AfterContentChecked, OnDes
 
     this.form.reset()
 
-    this.editTaskSub = this.tasksService.editTasks(this.editTaskId, task).subscribe(() => {
+    this.tasksService.editTasks(this.editTaskId, task).pipe(take(1)).subscribe(() => {
       this.alertService.success('you successfully edired task')
+      this.router.navigate(['dashboard'])
     }, (err) => {
       catchError(err)
       this.alertService.danger('something went wrong')
     })
   }
 
-  ngOnDestroy() {
-    if(this.getTaskSub) {
-      this.getTaskSub.unsubscribe()
-    }
-    if(this.editTaskSub) {
-      this.editTaskSub.unsubscribe()
-    }
-  }
 
 }

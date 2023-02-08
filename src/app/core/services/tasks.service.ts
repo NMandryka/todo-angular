@@ -1,9 +1,10 @@
-import {Injectable, Injector, OnInit} from "@angular/core";
-import {fbDbResponse, Task} from "src/app/enviroments/interfaces";
+import {Injectable, Injector} from "@angular/core";
+import {Task} from "../interfaces/task/task.interface";
+import {fbDbResponse} from "../interfaces/fbDbResponse/fbDbResponse.interface";
 import {map, Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
-import {enviroment} from "../../enviroments/enviroment";
-import {AuthService} from "./auth.service";
+import {enviroment} from "../../../enviroments/enviroment";
+import {TimeToDoEnum} from "../enums/timeToDo/timeToDo.enum";
 
 @Injectable({providedIn: 'root'})
 export class TasksService{
@@ -16,7 +17,7 @@ export class TasksService{
 
   createDbForNewUser(userId: string): Observable<any> {
     const firstTask: Task = {
-      timeToDo: "slow",
+      timeToDo: TimeToDoEnum.SLOW,
       title: "first task",
       description: "first task description",
       isComplete: false

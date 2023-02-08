@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AlertType} from "../../../enviroments/interfaces";
-import {AlertService} from "../../services/alert.service";
+import {AlertType} from "../../../core/interfaces/alert/alert.interface";
+import {AlertService} from "../alert.service";
 import {Subscription} from "rxjs";
 
 @Component({

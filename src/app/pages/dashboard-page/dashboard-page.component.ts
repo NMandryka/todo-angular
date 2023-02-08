@@ -1,9 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {TasksService} from "../../shared/services/tasks.service";
-import {Task} from "../../enviroments/interfaces";
-import { Router} from "@angular/router";
-import {catchError, Subscription} from "rxjs";
-import {AlertService} from "../../shared/services/alert.service";
+import {Component} from '@angular/core';
+import {TasksService} from "../../core/services/tasks.service";
+import {Task} from "../../core/interfaces/task/task.interface";
+import {Router} from "@angular/router";
+import {catchError, take} from "rxjs";
+import {AlertService} from "../../shared/alert/alert.service";
+import {TimeToDoEnum} from "../../core/enums/timeToDo/timeToDo.enum";
 
 
 @Component({
@@ -11,38 +12,42 @@ import {AlertService} from "../../shared/services/alert.service";
   templateUrl: './dashboard-page.component.html',
   styleUrls: ['./dashboard-page.component.scss']
 })
-export class DashboardPageComponent implements OnInit, OnDestroy{
+export class DashboardPageComponent {
   tasks : Task[]
   search = ''
   loading = true
-  timeToDo = 'all'
-  getSub: Subscription
-  delSub: Subscription
+  timeToDo = TimeToDoEnum.ALL
   page = 1
 
 
   constructor(public tasksService: TasksService,
               private router: Router,
-              private alertService: AlertService) {
-  }
+              private alertService: AlertService)
+  {
+    this.tasksService.getAll().pipe(take(1)).subscribe((response: Task[]) => {
 
-  ngOnInit() {
-    this.getSub = this.tasksService.getAll().subscribe((response: Task[]) => {
-
-      this.router.navigate([], {
-        queryParams: {
-          page: this.page
-        }
-      })
+      this.setPageParam()
 
       this.tasks = response
       this.loading = false
+
+    })
+
+  }
+
+  setPageParam() {
+    this.router.navigate([], {
+      queryParams: {
+        page: this.page
+      }
     })
   }
 
-
+  public get timeToDoEnum(): typeof TimeToDoEnum {
+    return TimeToDoEnum
+  }
   deletePost(id: string) {
-    this.delSub = this.tasksService.deleteTask(id).subscribe(() => {
+    this.tasksService.deleteTask(id).pipe(take(1)).subscribe(() => {
       this.tasks = this.tasks.filter(task => task.id !== id)
       this.alertService.success('you successfully deleted task')
     }, (err) => {
@@ -55,22 +60,9 @@ export class DashboardPageComponent implements OnInit, OnDestroy{
     this.router.navigate(['dashboard', 'tasks', 'edit', id])
   }
 
-  ngOnDestroy() {
-    if(this.getSub) {
-      this.getSub.unsubscribe()
-    }
-    if(this.delSub) {
-      this.delSub.unsubscribe()
-    }
-  }
-
   handlePageChanged(event: any) {
     this.page = event
-    this.router.navigate([], {
-      queryParams: {
-        page: this.page
-      }
-    })
+    this.setPageParam()
   }
 
 }

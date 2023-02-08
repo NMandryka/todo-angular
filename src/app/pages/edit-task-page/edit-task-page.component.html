@@ -2,7 +2,7 @@
   <h2>Edit task</h2>
   <div
     class="form-control"
-    [ngClass]="{invalid: form.get('title')?.invalid && form.get('title')?.touched}"
+    [class.invalid]="form.get('title')?.invalid && form.get('title')?.touched"
   >
     <label for="title">Title:</label>
     <input id="title" type="text" formControlName="title">
@@ -18,17 +18,11 @@
 
   <div
     class="form-control"
-    [ngClass]="{invalid: form.get('description')?.invalid && form.get('description')?.touched}"
+    [class.invalid]="form.get('description')?.invalid && form.get('description')?.touched"
   >
     <label for="description">Description:</label>
     <input id="description" type="text" formControlName="description">
-    <div
-      class="validation"
-      *ngIf="form.get('description')?.invalid && form.get('description')?.touched"
-    >
-      <small *ngIf="form.get('description')?.errors?.['required']">required description</small>
 
-    </div>
   </div>
 
   <label for="timeToDo">Time to do:</label>

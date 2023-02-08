@@ -1,46 +1,48 @@
-import {AfterContentChecked, Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Task} from "../../enviroments/interfaces";
-import {TasksService} from "../../shared/services/tasks.service";
-import {ChangeDetectorRef } from '@angular/core';
+import {Task} from "../../core/interfaces/task/task.interface";
+import {TasksService} from "../../core/services/tasks.service";
+import {TimeToDoEnum} from "../../core/enums/timeToDo/timeToDo.enum";
 import {catchError, Subscription} from "rxjs";
-import {AlertService} from "../../shared/services/alert.service";
+import {AlertService} from "../../shared/alert/alert.service";
 
 @Component({
   selector: 'app-create-task-page',
   templateUrl: './create-task-page.component.html',
   styleUrls: ['./create-task-page.component.scss']
 })
-export class CreateTaskPageComponent implements OnInit, AfterContentChecked, OnDestroy{
+export class CreateTaskPageComponent implements OnDestroy, AfterViewInit{
 
-  form: FormGroup
-  createSub = Subscription
+  form: FormGroup = new FormGroup({
+    title: new FormControl(null, [
+      Validators.required
+    ]),
+    description: new FormControl(null, [
+      Validators.required
+    ]),
+    timeToDo: new FormControl(TimeToDoEnum.FAST)
+  })
+
+  createSub: Subscription
 
   constructor(private tasksService: TasksService,
-              private cdref: ChangeDetectorRef,
-              private alertService: AlertService) {
-  }
-  ngOnInit() {
-    this.form = new FormGroup({
-      title: new FormControl(null, [
-        Validators.required
-      ]),
-      description: new FormControl(null, [
-        Validators.required
-      ]),
-      timeToDo: new FormControl('fast', )
-    })
+              private alertService: AlertService,
+              private cdr: ChangeDetectorRef
+              ) {
   }
 
-  ngAfterContentChecked() {
-    this.cdref.detectChanges()
+  ngAfterViewInit() {
+    this.cdr.detectChanges()
+  }
+
+  public get timeToDoEnum(): typeof TimeToDoEnum {
+    return TimeToDoEnum
   }
 
   changeTimeToDo(value: string) {
     this.form.patchValue({
       timeToDo: value
     })
-
   }
 
   createTask() {
@@ -53,7 +55,7 @@ export class CreateTaskPageComponent implements OnInit, AfterContentChecked, OnD
 
     this.form.reset()
 
-    this.tasksService.createTask(task).subscribe(() => {
+    this.createSub = this.tasksService.createTask(task).subscribe(() => {
       this.alertService.success('You successfully added new task')
     }, (err) => {
       catchError(err)
@@ -62,7 +64,11 @@ export class CreateTaskPageComponent implements OnInit, AfterContentChecked, OnD
   }
 
   ngOnDestroy() {
-
+    if(this.createSub) {
+      this.createSub.unsubscribe()
+    }
   }
+
+
 
 }

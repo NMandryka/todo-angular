@@ -10,23 +10,23 @@
     <div class="filter-btns">
       <button
         class="btn btn-light"
-        (click)="timeToDo = 'all'"
-        [ngClass]="{active: timeToDo === 'all'}"
+        (click)="timeToDo = timeToDoEnum.ALL"
+        [class.active]="timeToDo === timeToDoEnum.ALL"
       >all</button>
       <button
         class="btn fast"
-        (click)="timeToDo = 'fast'"
-        [ngClass]="{active: timeToDo === 'fast'}"
+        (click)="timeToDo = timeToDoEnum.FAST"
+        [class.active]="timeToDo === timeToDoEnum.FAST"
       >fast</button>
       <button
         class="btn medium"
-        (click)="timeToDo = 'medium'"
-        [ngClass]="{active: timeToDo === 'medium'}"
+        (click)="timeToDo = timeToDoEnum.MEDIUM"
+        [class.active]="timeToDo === timeToDoEnum.MEDIUM"
       >medium</button>
       <button
         class="btn slow"
-        (click)="timeToDo = 'slow'"
-        [ngClass]="{active: timeToDo === 'slow'}"
+        (click)="timeToDo = timeToDoEnum.SLOW"
+        [class.active]="timeToDo === timeToDoEnum.SLOW"
       >slow</button>
     </div>
   </div>
@@ -46,9 +46,9 @@
           totalItems: tasks.length
         }"
         class="task"
-        [ngClass]="{fast: task.timeToDo === 'fast',
-                  medium: task.timeToDo === 'medium',
-                  slow: task.timeToDo === 'slow'
+        [ngClass]="{fast: task.timeToDo === timeToDoEnum.FAST,
+                  medium: task.timeToDo === timeToDoEnum.MEDIUM,
+                  slow: task.timeToDo === timeToDoEnum.SLOW
                   }"
       >
         <div class="content">

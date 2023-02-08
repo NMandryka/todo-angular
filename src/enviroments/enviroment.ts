@@ -1,6 +1,5 @@
-import {Enviroment} from "./interfaces";
 
-export const enviroment: Enviroment = {
+export const enviroment = {
   production: false,
   firebase: {
     fbDb: 'https://todo-angular-c9237-default-rtdb.firebaseio.com/',
