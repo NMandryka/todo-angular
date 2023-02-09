@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {AuthGuard} from "./core/guards/auth.guard";
-import {ErrorPageComponent} from "./shared/error/error-page/error-page.component";
+
 
 
 
 const routes: Routes = [
   {path: '', redirectTo: 'auth', pathMatch: 'full'},
-  {path: 'auth', loadChildren: () => import('./shared/auth/auth.module').then(m => m.AuthModule)},
+  {path: 'auth', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)},
   {
     path: 'dashboard', loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule),
     canActivate: [AuthGuard]

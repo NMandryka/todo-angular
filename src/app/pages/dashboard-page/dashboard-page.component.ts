@@ -25,12 +25,9 @@ export class DashboardPageComponent {
               private alertService: AlertService)
   {
     this.tasksService.getAll().pipe(take(1)).subscribe((response: Task[]) => {
-
       this.setPageParam()
-
       this.tasks = response
       this.loading = false
-
     })
 
   }

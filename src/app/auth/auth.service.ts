@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {User} from "../../core/interfaces/user/user.interface";
+import {User} from "../core/interfaces/user/user.interface";
 import {Router} from "@angular/router";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
-import {TasksService} from "../../core/services/tasks.service";
-import {AlertService} from "../alert/alert.service";
+import {TasksService} from "../core/services/tasks.service";
+import {AlertService} from "../shared/alert/alert.service";
 
 
 @Injectable({
@@ -54,7 +54,7 @@ export class AuthService {
       .then((result) => {
 
         this.setUserData(result.user);
-        this.tasksService.createDbForNewUser(result.user!.uid).subscribe(() => console.log('work db'))
+        this.tasksService.createDbForNewUser(result.user!.uid).subscribe()
         this.router.navigate(['dashboard'])
 
       })

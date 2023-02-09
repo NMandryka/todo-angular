@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {catchError, take} from "rxjs";
 import {AlertService} from "../../shared/alert/alert.service";
 import {TimeToDoEnum} from "../../core/enums/timeToDo/timeToDo.enum";
+import {trimValidator} from "../../core/validators/trim.validator";
 
 @Component({
   selector: 'app-edit-task-page',
@@ -14,8 +15,8 @@ import {TimeToDoEnum} from "../../core/enums/timeToDo/timeToDo.enum";
 })
 export class EditTaskPageComponent {
   form: FormGroup = new FormGroup({
-    title: new FormControl(null, Validators.required),
-    description: new FormControl(null, Validators.required),
+    title: new FormControl(null, [Validators.required, trimValidator()]),
+    description: new FormControl(null, [Validators.required, trimValidator()]),
     timeToDo: new FormControl(null, Validators.required)
   })
   editTaskId: string
@@ -28,25 +29,28 @@ export class EditTaskPageComponent {
   {
     this.editTaskId = this.route.snapshot.paramMap.get('id')!
 
-    this.tasksService.getTaskById(this.editTaskId).pipe(take(1)).subscribe((task: Task) => {
-      task.timeToDo = task.timeToDo.toUpperCase() as TimeToDoEnum
-      this.task = task
-      console.log(task)
-      console.log(this.task.timeToDo)
+    const userId = JSON.parse(localStorage.getItem('user')!).uid
 
+    this.tasksService.getTaskById(this.editTaskId, userId).pipe(take(1)).subscribe((task: Task) => {
+      console.log(task)
+      this.task = task
       this.form.setValue({
         title: task.title,
         description: task.description,
         timeToDo: task.timeToDo
       })
     })
+
+  }
+
+  public get timeToDoEnum() {
+    return TimeToDoEnum
   }
 
   changeTimeToDo(value: string) {
     this.form.patchValue({
       timeToDo: value
     })
-
   }
 
   editTask() {
@@ -60,13 +64,12 @@ export class EditTaskPageComponent {
     this.form.reset()
 
     this.tasksService.editTasks(this.editTaskId, task).pipe(take(1)).subscribe(() => {
-      this.alertService.success('you successfully edired task')
+      this.alertService.success('you successfully edited task')
       this.router.navigate(['dashboard'])
     }, (err) => {
       catchError(err)
       this.alertService.danger('something went wrong')
     })
   }
-
 
 }

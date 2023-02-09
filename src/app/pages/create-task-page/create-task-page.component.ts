@@ -5,6 +5,7 @@ import {TasksService} from "../../core/services/tasks.service";
 import {TimeToDoEnum} from "../../core/enums/timeToDo/timeToDo.enum";
 import {catchError, Subscription} from "rxjs";
 import {AlertService} from "../../shared/alert/alert.service";
+import {trimValidator} from "../../core/validators/trim.validator";
 
 @Component({
   selector: 'app-create-task-page',
@@ -15,10 +16,12 @@ export class CreateTaskPageComponent implements OnDestroy, AfterViewInit{
 
   form: FormGroup = new FormGroup({
     title: new FormControl(null, [
-      Validators.required
+      Validators.required,
+      trimValidator()
     ]),
     description: new FormControl(null, [
-      Validators.required
+      Validators.required,
+      trimValidator()
     ]),
     timeToDo: new FormControl(TimeToDoEnum.FAST)
   })

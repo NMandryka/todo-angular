@@ -1,5 +1,5 @@
 <form class="card" [formGroup]="form" (ngSubmit)="submit()">
-  <h2>Sign in</h2>
+  <h2>Sign Up</h2>
   <div
     class="form-control"
     [ngClass]="{invalid: form.get('email')?.invalid && form.get('email')?.touched}"
@@ -21,13 +21,15 @@
     [ngClass]="{invalid: form.get('password')?.invalid && form.get('password')?.touched}"
   >
     <label for="password">Password:</label>
-    <input id="password" type="password" formControlName="password">
+    <input id="password" [type]="showPassword ? 'text' : 'password' " #password formControlName="password">
+    <button type="button" (click)="showPassword = !showPassword" >{{showPassword ? 'hide' : 'show'}} password</button>
     <div
       class="validation"
       *ngIf="form.get('password')?.invalid && form.get('password')?.touched"
     >
       <small *ngIf="form.get('password')?.errors?.['required']">required password</small>
-      <small *ngIf="form.get('password')?.errors?.['minlength']">min length is 6</small>
+      <small *ngIf="form.get('password')?.errors?.['minlength']">min length is 8</small>
+      <small class="strong-password" *ngIf="form.get('password')?.errors?.['passwordStrength']">  Your password must have lower case, upper case and numeric characters.</small>
     </div>
   </div>
 
@@ -37,14 +39,15 @@
       type="submit"
       class="btn btn-primary"
       [disabled]="form.invalid"
-    >Sign In</button>
+    >Sign Up</button>
     <button
       tabindex="1"
-      type="button"
+      type="submit"
       class="btn btn-dark"
-      routerLink="/sign-up"
-    >Sign Up</button>
+      routerLink="/auth/sign-in"
+    >Login</button>
   </div>
 
 </form>
+
 

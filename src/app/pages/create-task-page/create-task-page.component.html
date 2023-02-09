@@ -11,6 +11,7 @@
       *ngIf="form.get('title')?.invalid && form.get('title')?.touched"
     >
       <small *ngIf="form.get('title')?.errors?.['required']">required title</small>
+      <small *ngIf="form.get('title')?.errors?.['trimValidator']">required title</small>
 
 
     </div>
@@ -27,6 +28,8 @@
       *ngIf="form.get('description')?.invalid && form.get('description')?.touched"
     >
       <small *ngIf="form.get('description')?.errors?.['required']">required description</small>
+      <small *ngIf="form.get('description')?.errors?.['trimValidator']">required description</small>
+
 
     </div>
   </div>

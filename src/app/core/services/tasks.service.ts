@@ -1,4 +1,4 @@
-import {Injectable, Injector} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {Task} from "../interfaces/task/task.interface";
 import {fbDbResponse} from "../interfaces/fbDbResponse/fbDbResponse.interface";
 import {map, Observable} from "rxjs";
@@ -10,8 +10,7 @@ import {TimeToDoEnum} from "../enums/timeToDo/timeToDo.enum";
 export class TasksService{
 
   userId: string
-  constructor(private http: HttpClient,
-              private injector: Injector) {
+  constructor(private http: HttpClient) {
   }
 
 
@@ -59,8 +58,8 @@ export class TasksService{
     return this.http.delete(`${enviroment.firebase.fbDb}/users/${this.userId}/tasks/${id}.json`)
   }
 
-  getTaskById(id: string): Observable<Task> {
-    return this.http.get<Task>(`${enviroment.firebase.fbDb}/users/${this.userId}/tasks/${id}.json`)
+  getTaskById(id: string, userId = this.userId): Observable<Task> {
+    return this.http.get<Task>(`${enviroment.firebase.fbDb}/users/${userId}/tasks/${id}.json`)
   }
   editTasks(id: string, task: Task) {
     return this.http.patch(`${enviroment.firebase.fbDb}/users/${this.userId}/tasks/${id}.json`, task)

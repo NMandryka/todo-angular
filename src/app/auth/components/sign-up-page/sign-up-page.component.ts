@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../auth.service";
-import {AlertService} from "../../../alert/alert.service";
+import {AlertService} from "../../../shared/alert/alert.service";
+import {createPasswordStrengthValidator} from "../../../core/validators/create-strong-password.validator";
 
 
 @Component({
@@ -20,7 +21,9 @@ export class SignUpPageComponent {
         Validators.required, Validators.email
       ]),
       password: new FormControl(null, [
-        Validators.required, Validators.minLength(6)
+        Validators.required,
+        Validators.minLength(8),
+        createPasswordStrengthValidator()
       ])
     })
   }

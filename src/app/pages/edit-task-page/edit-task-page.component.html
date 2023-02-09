@@ -11,6 +11,7 @@
       *ngIf="form.get('title')?.invalid && form.get('title')?.touched"
     >
       <small *ngIf="form.get('title')?.errors?.['required']">required title</small>
+      <small *ngIf="form.get('title')?.errors?.['trimValidator']">required title</small>
 
 
     </div>
@@ -22,6 +23,8 @@
   >
     <label for="description">Description:</label>
     <input id="description" type="text" formControlName="description">
+    <small *ngIf="form.get('description')?.errors?.['required']">required description</small>
+    <small *ngIf="form.get('description')?.errors?.['trimValidator']">required description</small>
 
   </div>
 
@@ -29,16 +32,16 @@
   <select
     name="timeToDo"
     id="timeToDo"
-    [ngClass]="{'option-fast': timeToDo.value === 'fast',
-                  'option-medium': timeToDo.value === 'medium',
-                  'option-slow': timeToDo.value === 'slow'
+    [ngClass]="{'option-fast': timeToDo.value === timeToDoEnum.FAST,
+                  'option-medium': timeToDo.value === timeToDoEnum.MEDIUM,
+                  'option-slow': timeToDo.value === timeToDoEnum.SLOW
                   }"
     #timeToDo
     formControlName="timeToDo"
     (change)="changeTimeToDo(timeToDo.value)">
-    <option value="fast" class="option-fast">fast</option>
-    <option value="medium" class="option-medium">medium</option>
-    <option value="slow" class="option-slow">slow</option>
+    <option [value]="timeToDoEnum.FAST" class="option-fast">fast</option>
+    <option [value]="timeToDoEnum.MEDIUM" class="option-medium">medium</option>
+    <option [value]="timeToDoEnum.SLOW" class="option-slow">slow</option>
   </select>
 
   <div class="auth-btn">

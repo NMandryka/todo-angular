@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../auth.service";
-import {AlertService} from "../../../alert/alert.service";
-import {catchError} from "rxjs";
+import {AlertService} from "../../../shared/alert/alert.service";
+import {createPasswordStrengthValidator} from "../../../core/validators/create-strong-password.validator";
+
 
 @Component({
   selector: 'app-login-page',
@@ -12,6 +13,7 @@ import {catchError} from "rxjs";
 export class LoginPageComponent implements OnInit{
 
   form: FormGroup
+  showPassword = false
 
   constructor(private auth: AuthService,
               private alertService: AlertService) {
@@ -23,7 +25,8 @@ export class LoginPageComponent implements OnInit{
         Validators.required, Validators.email
       ]),
       password: new FormControl(null, [
-        Validators.required, Validators.minLength(6)
+        Validators.required
+
       ])
     })
   }
