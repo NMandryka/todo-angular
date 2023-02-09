@@ -4,7 +4,7 @@ import {Task} from "../../core/interfaces/task/task.interface";
 import {TasksService} from "../../core/services/tasks.service";
 import {TimeToDoEnum} from "../../core/enums/timeToDo/timeToDo.enum";
 import {catchError, Subscription} from "rxjs";
-import {AlertService} from "../../shared/alert/alert.service";
+import {AlertService} from "../../shared/components/alert/alert.service";
 import {trimValidator} from "../../core/validators/trim.validator";
 
 @Component({

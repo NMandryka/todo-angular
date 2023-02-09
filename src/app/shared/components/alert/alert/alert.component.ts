@@ -1,14 +1,15 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {AlertType} from "../../../core/interfaces/alert/alert.interface";
+import {AlertType} from "../../../../core/interfaces/alert/alert.interface";
 import {AlertService} from "../alert.service";
-import {Subscription} from "rxjs";
+import {Subscription, take} from "rxjs";
+import {AlertEnum} from "../../../../core/enums/alert/alert.enum";
 
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',
   styleUrls: ['./alert.component.scss']
 })
-export class AlertComponent implements OnInit, OnDestroy{
+export class AlertComponent {
 
   delay = 5000
   public text: string
@@ -16,10 +17,7 @@ export class AlertComponent implements OnInit, OnDestroy{
   alertSub: Subscription
 
   constructor(private alertService: AlertService) {
-  }
-
-  ngOnInit() {
-    this.alertSub = this.alertService.alert$.subscribe(alert => {
+    this.alertSub = this.alertService.alert$.pipe(take(1)).subscribe(alert => {
       this.text = alert.text
       this.type = alert.type
 
@@ -30,9 +28,8 @@ export class AlertComponent implements OnInit, OnDestroy{
     })
   }
 
-  ngOnDestroy() {
-    if(this.alertSub) {
-      this.alertSub.unsubscribe()
-    }
+  public get alertEnum() {
+    return AlertEnum
   }
+
 }

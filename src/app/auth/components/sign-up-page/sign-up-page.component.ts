@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../auth.service";
-import {AlertService} from "../../../shared/alert/alert.service";
+import {AlertService} from "../../../shared/components/alert/alert.service";
 import {createPasswordStrengthValidator} from "../../../core/validators/create-strong-password.validator";
 
 

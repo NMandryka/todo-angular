@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Subject} from "rxjs";
-import {Alert} from "../../core/interfaces/alert/alert.interface";
-import {AlertEnum} from "../../core/enums/alert/alert.enum";
+import {Alert} from "../../../core/interfaces/alert/alert.interface";
+import {AlertEnum} from "../../../core/enums/alert/alert.enum";
 
 
 @Injectable({providedIn: 'root'})

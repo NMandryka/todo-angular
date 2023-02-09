@@ -15,7 +15,7 @@ export class AuthGuard implements CanActivate{
         return true
       } else {
         this.auth.signOut()
-        this.router.navigate(['/sign-in'], {
+        this.router.navigate(['/auth/sign-in'], {
           queryParams: {
             isAuth: false
           }

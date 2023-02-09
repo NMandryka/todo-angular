@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/compat/firestore";
 import {TasksService} from "../core/services/tasks.service";
-import {AlertService} from "../shared/alert/alert.service";
+import {AlertService} from "../shared/components/alert/alert.service";
 
 
 @Injectable({
@@ -94,7 +94,7 @@ export class AuthService {
         });
       })
       .catch((error) => {
-        window.alert(error.message);
+        this.alertService.danger('There is not user with this data')
       });
   }
 }

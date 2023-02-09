@@ -3,7 +3,7 @@ import {TasksService} from "../../core/services/tasks.service";
 import {Task} from "../../core/interfaces/task/task.interface";
 import {Router} from "@angular/router";
 import {catchError, take} from "rxjs";
-import {AlertService} from "../../shared/alert/alert.service";
+import {AlertService} from "../../shared/components/alert/alert.service";
 import {TimeToDoEnum} from "../../core/enums/timeToDo/timeToDo.enum";
 
 

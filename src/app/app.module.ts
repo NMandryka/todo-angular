@@ -10,7 +10,7 @@ import {AngularFireAuthModule} from "@angular/fire/compat/auth";
 import {CommonModule} from "@angular/common";
 import {AuthModule} from "./auth/auth.module";
 import {PagesModule} from "./pages/pages.module";
-import {AlertModule} from "./shared/alert/alert.module";
+import {AlertModule} from "./shared/components/alert/alert.module";
 import {ErrorModule} from "./shared/error/error.module";
 import {HttpErrorInterceptor} from "./core/interceptors/http-error.interceptor";
 

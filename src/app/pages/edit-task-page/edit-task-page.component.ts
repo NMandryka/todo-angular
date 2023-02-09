@@ -4,7 +4,7 @@ import {TasksService} from "../../core/services/tasks.service";
 import {Task} from "../../core/interfaces/task/task.interface";
 import {ActivatedRoute, Router} from "@angular/router";
 import {catchError, take} from "rxjs";
-import {AlertService} from "../../shared/alert/alert.service";
+import {AlertService} from "../../shared/components/alert/alert.service";
 import {TimeToDoEnum} from "../../core/enums/timeToDo/timeToDo.enum";
 import {trimValidator} from "../../core/validators/trim.validator";
 
@@ -32,7 +32,7 @@ export class EditTaskPageComponent {
     const userId = JSON.parse(localStorage.getItem('user')!).uid
 
     this.tasksService.getTaskById(this.editTaskId, userId).pipe(take(1)).subscribe((task: Task) => {
-      console.log(task)
+
       this.task = task
       this.form.setValue({
         title: task.title,
